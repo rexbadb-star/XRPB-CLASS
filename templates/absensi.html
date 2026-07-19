@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container" style="max-width: 600px;">
+    <div class="art-bg"><div class="art-1"></div><div class="art-2"></div></div>
+
+    <div class="container">
         <h1>ABSENSI KELAS XRPB</h1>
         <p>Silakan isi kehadiranmu hari ini.</p>
-        <hr>
 
-        <!-- Form Absen -->
         <form action="/absensi" method="POST">
             <input type="text" name="nama" placeholder="Nama Lengkap Siswa" required>
-            <select name="keterangan" style="width: 95%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">
+            <select name="keterangan">
                 <option value="Hadir">Hadir</option>
                 <option value="Izin">Izin</option>
                 <option value="Sakit">Sakit</option>
@@ -22,31 +22,36 @@
             <button type="submit" class="button">Kirim Absen</button>
         </form>
 
-        <hr style="margin-top: 30px;">
+        <hr style="opacity: 0.2; margin: 20px 0;">
 
-        <!-- Tabel Daftar Hadir -->
-        <h3>Riwayat Absensi:</h3>
-        <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-            <tr style="background-color: #3498db; color: white;">
-                <th>Nama</th>
-                <th>Waktu</th>
-                <th>Keterangan</th>
-            </tr>
-            {% for absen in data_absen %}
-            <tr>
-                <td style="padding: 8px;">{{ absen.nama }}</td>
-                <td style="padding: 8px;">{{ absen.tanggal }}</td>
-                <td style="padding: 8px;">{{ absen.keterangan }}</td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="3" style="padding: 10px;">Belum ada data absensi hari ini.</td>
-            </tr>
-            {% endfor %}
+        <h3>Riwayat Absensi</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Waktu</th>
+                    <th>Ket</th>
+                    {% if session['user'] == 'Adminpanel123' %} <th>Aksi</th> {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for absen in data_absen %}
+                <tr>
+                    <td>{{ absen.nama }}</td>
+                    <td>{{ absen.tanggal }}</td>
+                    <td>{{ absen.keterangan }}</td>
+                    {% if session['user'] == 'Adminpanel123' %}
+                    <td><a href="/hapus_absen/{{ absen.id }}" class="btn-delete">Hapus</a></td>
+                    {% endif %}
+                </tr>
+                {% else %}
+                <tr><td colspan="4" style="text-align:center; background:none; color:white;">Belum ada data.</td></tr>
+                {% endfor %}
+            </tbody>
         </table>
 
-        <br>
-        <a href="/" style="text-decoration: none; color: #3498db;">Kembali ke Dashboard</a>
+        <br><br>
+        <a href="/">← Kembali ke Dashboard</a>
     </div>
 </body>
 </html>

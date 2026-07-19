@@ -7,11 +7,9 @@ app.secret_key = 'XRPB_SECRET_KEY'
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
-    # Biar hasil query berbentuk dictionary (bisa dipanggil pake nama kolom)
+
     conn.row_factory = sqlite3.Row 
     return conn
-
-# ... (Kode /login, /, /logout, /jadwal yang lama biarkan tetap ada) ...
 
 @app.route('/absensi', methods=['GET', 'POST'])
 def absensi():
@@ -20,19 +18,16 @@ def absensi():
         
     conn = get_db_connection()
 
-    # Jika user menekan tombol "Kirim Absen" (POST)
     if request.method == 'POST':
         nama_siswa = request.form['nama']
         ket = request.form['keterangan']
         
-        # Perintah SQL untuk simpan data (CREATE)
         conn.execute('INSERT INTO absensi (nama, keterangan) VALUES (?, ?)',
                      (nama_siswa, ket))
-        conn.commit() # Simpan permanen
+        conn.commit() 
         conn.close()
         return redirect('/absensi')
 
-    # Jika user hanya melihat halaman (GET) (READ)
     daftar_absen = conn.execute('SELECT * FROM absensi ORDER BY tanggal DESC').fetchall()
     conn.close()
     
@@ -57,6 +52,19 @@ def login():
             return render_template('login.html', error="Username atau Password Salah!")
             
     return render_template('login.html')
+
+@app.route('/hapus_absen/<int:id>')
+def hapus_absen(id):
+
+    if 'user' in session and session['user'] == 'Adminpanel123':
+        conn = get_db_connection()
+        conn.execute('DELETE FROM absensi WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
+        return redirect('/absensi')
+    else:
+
+        return "Anda tidak memiliki akses untuk menghapus data!", 403
 
 @app.route('/')
 def home():
@@ -84,7 +92,7 @@ def jadwal():
 def seragam():
     if 'user' not in session:
         return redirect('/login')
-    return "Seragam Harian: Senin Putih Abu, Selasa Pramuka" 
+    return render_template('seragam.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
