@@ -1,0 +1,50 @@
+/* style.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eef2f3; /* Warna abu-abu muda yang modern */
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px; /* Biar ujungnya gak tajam/kotak banget */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Efek bayangan biar gak flat */
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #7f8c8d;
+}
+
+.menu-box {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s; /* Efek halus saat kursor menyentuh tombol */
+}
+
+.button:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px); /* Tombol sedikit naik saat disentuh */
+}
