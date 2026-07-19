@@ -1,10 +1,42 @@
+import sqlite3
 from flask import Flask, render_template, request, redirect, session
 
 app = Flask(__name__)
 
-# --- TAMBAHKAN INI ---
 app.secret_key = 'XRPB_SECRET_KEY' 
 
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    # Biar hasil query berbentuk dictionary (bisa dipanggil pake nama kolom)
+    conn.row_factory = sqlite3.Row 
+    return conn
+
+# ... (Kode /login, /, /logout, /jadwal yang lama biarkan tetap ada) ...
+
+@app.route('/absensi', methods=['GET', 'POST'])
+def absensi():
+    if 'user' not in session:
+        return redirect('/login')
+        
+    conn = get_db_connection()
+
+    # Jika user menekan tombol "Kirim Absen" (POST)
+    if request.method == 'POST':
+        nama_siswa = request.form['nama']
+        ket = request.form['keterangan']
+        
+        # Perintah SQL untuk simpan data (CREATE)
+        conn.execute('INSERT INTO absensi (nama, keterangan) VALUES (?, ?)',
+                     (nama_siswa, ket))
+        conn.commit() # Simpan permanen
+        conn.close()
+        return redirect('/absensi')
+
+    # Jika user hanya melihat halaman (GET) (READ)
+    daftar_absen = conn.execute('SELECT * FROM absensi ORDER BY tanggal DESC').fetchall()
+    conn.close()
+    
+    return render_template('absensi.html', data_absen=daftar_absen)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Absensi - XRPB CLASS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 600px;">
+        <h1>ABSENSI KELAS XRPB</h1>
+        <p>Silakan isi kehadiranmu hari ini.</p>
+        <hr>
+
+        <!-- Form Absen -->
+        <form action="/absensi" method="POST">
+            <input type="text" name="nama" placeholder="Nama Lengkap Siswa" required>
+            <select name="keterangan" style="width: 95%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">
+                <option value="Hadir">Hadir</option>
+                <option value="Izin">Izin</option>
+                <option value="Sakit">Sakit</option>
+            </select>
+            <button type="submit" class="button">Kirim Absen</button>
+        </form>
+
+        <hr style="margin-top: 30px;">
+
+        <!-- Tabel Daftar Hadir -->
+        <h3>Riwayat Absensi:</h3>
+        <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <tr style="background-color: #3498db; color: white;">
+                <th>Nama</th>
+                <th>Waktu</th>
+                <th>Keterangan</th>
+            </tr>
+            {% for absen in data_absen %}
+            <tr>
+                <td style="padding: 8px;">{{ absen.nama }}</td>
+                <td style="padding: 8px;">{{ absen.tanggal }}</td>
+                <td style="padding: 8px;">{{ absen.keterangan }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="padding: 10px;">Belum ada data absensi hari ini.</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+        <a href="/" style="text-decoration: none; color: #3498db;">Kembali ke Dashboard</a>
+    </div>
+</body>
+</html>
