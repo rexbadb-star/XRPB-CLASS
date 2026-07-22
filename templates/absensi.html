@@ -2,18 +2,14 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Absensi - XRPB CLASS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="art-bg"><div class="art-1"></div><div class="art-2"></div></div>
-
     <div class="container">
-        <h1>ABSENSI KELAS XRPB</h1>
-        <p>Silakan isi kehadiranmu hari ini.</p>
-
+        <h1>ABSENSI</h1>
         <form action="/absensi" method="POST">
-            <input type="text" name="nama" placeholder="Nama Lengkap Siswa" required>
+            <input type="text" name="nama" placeholder="Nama Lengkap" required>
             <select name="keterangan">
                 <option value="Hadir">Hadir</option>
                 <option value="Izin">Izin</option>
@@ -21,37 +17,18 @@
             </select>
             <button type="submit" class="button">Kirim Absen</button>
         </form>
-
-        <hr style="opacity: 0.2; margin: 20px 0;">
-
-        <h3>Riwayat Absensi</h3>
         <table>
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Waktu</th>
-                    <th>Ket</th>
-                    {% if session['user'] == 'Adminpanel123' %} <th>Aksi</th> {% endif %}
-                </tr>
-            </thead>
+            <thead><tr><th>Nama</th><th>Waktu</th><th>Ket</th>{% if session['user'] == 'Adminpanel123' %}<th>Aksi</th>{% endif %}</tr></thead>
             <tbody>
                 {% for absen in data_absen %}
                 <tr>
-                    <td>{{ absen.nama }}</td>
-                    <td>{{ absen.tanggal }}</td>
-                    <td>{{ absen.keterangan }}</td>
-                    {% if session['user'] == 'Adminpanel123' %}
-                    <td><a href="/hapus_absen/{{ absen.id }}" class="btn-delete">Hapus</a></td>
-                    {% endif %}
+                    <td>{{ absen.nama }}</td><td>{{ absen.tanggal }}</td><td>{{ absen.keterangan }}</td>
+                    {% if session['user'] == 'Adminpanel123' %}<td><a href="/hapus_absen/{{ absen.id }}" class="btn-delete">Hapus</a></td>{% endif %}
                 </tr>
-                {% else %}
-                <tr><td colspan="4" style="text-align:center; background:none; color:white;">Belum ada data.</td></tr>
                 {% endfor %}
             </tbody>
         </table>
-
-        <br><br>
-        <a href="/">← Kembali ke Dashboard</a>
+        <br><a href="/">← Kembali</a>
     </div>
 </body>
 </html>

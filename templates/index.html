@@ -2,27 +2,19 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - XRPB CLASS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- Tambahkan Lukisan Latar Belakang -->
-    <div class="art-bg">
-        <div class="art-1"></div>
-        <div class="art-2"></div>
-    </div>
-
-    <div class="container">
+    <div class="art-bg"><div class="art-1"></div><div class="art-2"></div></div>
+    <div class="container" style="max-width: 500px;">
         <h1>XRPB CLASS</h1>
-        <p>Halo, <strong>{{ nama }}</strong>! Pilih menu layanan.</p>
-
+        <p>Halo, <strong>{{ nama }}</strong>!</p>
         <div class="grid-menu">
-            <a href="/absensi" class="card">Absensi Siswa</a>
-            <a href="/jadwal" class="card">Jadwal Pelajaran</a>
-            <a href="/seragam" class="card">Seragam Hari Ini</a>
+            <a href="/absensi" class="card"> Absensi Siswa</a>
+            <a href="/jadwal" class="card"> Jadwal Pelajaran</a>
+            <a href="/seragam" class="card"> Seragam Hari Ini</a>
         </div>
-
-        <a href="/logout" class="logout-link">Keluar dari Sistem</a>
+        <br><a href="/logout" style="color:white; opacity:0.6;"> Logout</a>
     </div>
 </body>
 </html>
